@@ -15,6 +15,7 @@ from dotenv import load_dotenv
 
 load_dotenv(os.path.abspath("currency_exchange/.env"))
 load_dotenv(os.path.abspath("db.env"))
+load_dotenv(os.path.abspath("broker.env"))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'currency_exchange',
+    'django_celery_results',
 ]
 
 MIDDLEWARE = [
@@ -150,3 +152,8 @@ INIT_CURRENCIES = [
     "ZAR=X",
     "RUB=X",
 ]
+
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_BROKER_URL = f'amqp://\
+{os.environ["RABBITMQ_DEFAULT_USER"]}:\
+{os.environ["RABBITMQ_DEFAULT_PASS"]}@localhost:5672//'
