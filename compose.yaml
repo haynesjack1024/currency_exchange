@@ -1,0 +1,15 @@
+name: currency_exchange
+services:
+  db:
+    image: mysql
+    restart: always
+    ports:
+      - 3306:3306
+    env_file: db.env
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
