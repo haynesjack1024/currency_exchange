@@ -124,3 +124,29 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+INIT_CURRENCIES = [
+    "EURUSD=X",
+    "JPY=X",
+    "GBPUSD=X",
+    "AUDUSD=X",
+    "NZDUSD=X",
+    "EURJPY=X",
+    "GBPJPY=X",
+    "EURGBP=X",
+    "EURCAD=X",
+    "EURSEK=X",
+    "EURCHF=X",
+    "EURHUF=X",
+    "CNY=X",
+    "HKD=X",
+    "SGD=X",
+    "INR=X",
+    "MXN=X",
+    "PHP=X",
+    "IDR=X",
+    "THB=X",
+    "MYR=X",
+    "ZAR=X",
+    "RUB=X",
+]
