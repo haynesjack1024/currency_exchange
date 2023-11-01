@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'currency_exchange',
-    'django_celery_results',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -153,7 +153,6 @@ INIT_CURRENCIES = [
     "RUB=X",
 ]
 
-CELERY_RESULT_BACKEND = 'django-db'
 CELERY_BROKER_URL = f'amqp://\
 {os.environ["RABBITMQ_DEFAULT_USER"]}:\
 {os.environ["RABBITMQ_DEFAULT_PASS"]}@localhost:5672//'
