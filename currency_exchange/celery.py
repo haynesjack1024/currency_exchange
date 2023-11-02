@@ -1,4 +1,5 @@
 import os
+from itertools import permutations
 
 import django
 import yfinance as yf
@@ -7,8 +8,7 @@ from celery import Celery
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "currency_exchange.settings")
 django.setup()
 
-from currency_exchange.models import Currency
-from currency_exchange.models import CurrencyExchangeInfo
+from currency_exchange.models import Currency, CurrencyExchangeRate
 
 app = Celery("currency_exchange")
 app.config_from_object("django.conf:settings", namespace="CELERY")
@@ -17,25 +17,26 @@ app.config_from_object("django.conf:settings", namespace="CELERY")
 @app.on_after_configure.connect
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(
-        10.0,
-        get_currency_exchange_info.s(),
-        name="get currency exchange info"
+        60.0,
+        get_currency_exchange_rates.s()
     )
 
 
 @app.task
-def get_currency_exchange_info():
-    currencies = list(map(
-        lambda elem: elem[0],
-        Currency.objects.all().values_list("symbol")
-    ))
+def get_currency_exchange_rates():
+    currency_pairs = permutations(Currency.objects.all(), 2)
 
-    tickers = yf.Tickers(" ".join(currencies)).tickers
-    for symbol, ticker in tickers.items():
-        last_price = ticker.fast_info["lastPrice"]
+    currency_exchange_rates = []
+    for fst_currency, snd_currency in currency_pairs:
+        currency_exchange_rates.append(
+            CurrencyExchangeRate(
+                fst_currency=fst_currency,
+                snd_currency=snd_currency
+            )
+        )
 
-        if last_price is not None:
-            CurrencyExchangeInfo(
-                currency=Currency.objects.get(symbol=symbol),
-                exchange_rate=last_price
-            ).save()
+        ticker = yf.Ticker(f"{currency_exchange_rates[-1].symbol}=X")
+        currency_exchange_rates[-1].rate = ticker.fast_info['lastPrice']
+
+        if currency_exchange_rates[-1].rate is not None:
+            currency_exchange_rates[-1].save()

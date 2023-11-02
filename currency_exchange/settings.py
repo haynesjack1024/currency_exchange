@@ -11,11 +11,9 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
 from pathlib import Path
-from dotenv import load_dotenv
 
-load_dotenv(os.path.abspath("currency_exchange/.env"))
-load_dotenv(os.path.abspath("db.env"))
-load_dotenv(os.path.abspath("broker.env"))
+from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -128,29 +126,9 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 INIT_CURRENCIES = [
-    "EURUSD=X",
-    "JPY=X",
-    "GBPUSD=X",
-    "AUDUSD=X",
-    "NZDUSD=X",
-    "EURJPY=X",
-    "GBPJPY=X",
-    "EURGBP=X",
-    "EURCAD=X",
-    "EURSEK=X",
-    "EURCHF=X",
-    "EURHUF=X",
-    "CNY=X",
-    "HKD=X",
-    "SGD=X",
-    "INR=X",
-    "MXN=X",
-    "PHP=X",
-    "IDR=X",
-    "THB=X",
-    "MYR=X",
-    "ZAR=X",
-    "RUB=X",
+    "EUR",
+    "USD",
+    "PLN"
 ]
 
 CELERY_BROKER_URL = f'amqp://\

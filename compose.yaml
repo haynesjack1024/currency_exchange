@@ -5,7 +5,7 @@ services:
     restart: always
     ports:
       - 3306:3306
-    env_file: db.env
+    env_file: currency_exchange/.env
   adminer:
     image: adminer
     restart: always
@@ -17,6 +17,6 @@ services:
     image: rabbitmq:alpine
     ports:
       - 5672:5672
-    env_file: broker.env
+    env_file: currency_exchange/.env
     depends_on:
       - db
