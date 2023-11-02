@@ -16,9 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from currency_exchange.views import currency_exchange_rates
+
+from currency_exchange import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('currency/', currency_exchange_rates)
+    path('currency/', views.CurrenciesList.as_view()),
+    path(
+        'currency/<fst_currency_code>/<snd_currency_code>/',
+        views.CurrencyPairExchangeRate.as_view()
+    )
 ]

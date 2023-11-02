@@ -1,14 +1,15 @@
 from rest_framework import serializers
 
-from currency_exchange.models import CurrencyExchangeInfo
+from currency_exchange.models import Currency, CurrencyExchangeRate
 
 
-class CurrencyExchangeInfoSerializer(serializers.ModelSerializer):
-    currency = serializers.SlugRelatedField(
-        slug_field='symbol',
-        read_only=True
-    )
-
+class CurrencySerializer(serializers.ModelSerializer):
     class Meta:
-        model = CurrencyExchangeInfo
-        fields = ['currency', 'exchange_rate']
+        model = Currency
+        fields = ['code']
+
+
+class CurrencyExchangeRateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CurrencyExchangeRate
+        fields = ['symbol', 'rate']
